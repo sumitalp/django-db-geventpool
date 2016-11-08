@@ -26,11 +26,9 @@ class DatabaseCreationMixin17(object):
 
 
 class DatabaseCreationMixin18(object):
-    """
-    As per Django 1.8 create_test_db needs extra parameter keepdb.
-    Without this param './manage.py test' arise error
-    """
-    def _create_test_db(self, verbosity, autoclobber, keepdb):
+
+    def _create_test_db(self, verbosity, autoclobber, keepdb=False):
+
         self.connection.closeall()
         return super(DatabaseCreationMixin18, self)._create_test_db(verbosity, autoclobber, keepdb)
 
@@ -42,7 +40,9 @@ class DatabaseCreationMixin18(object):
 if django.VERSION >= (1, 8):
     class DatabaseCreationMixin(DatabaseCreationMixin18):
         pass
-elif (django.VERSION >= (1, 7)) and (django.VERSION < (1, 8)):
+
+elif django.VERSION >= (1, 7):
+
     class DatabaseCreationMixin(DatabaseCreationMixin17):
         pass
 else:
